@@ -35,8 +35,17 @@ if uploaded_file is not None:
         with st.spinner("Extracting and validating structured data..."):
             invoice_data = extract_invoice_data(document_text)
 
+        invoice_json = invoice_data.model_dump_json(indent=2)
+
         st.subheader("Extracted JSON")
         st.json(invoice_data.model_dump())
+
+        st.download_button(
+            label="Download extracted JSON",
+            data=invoice_json,
+            file_name="extracted_invoice.json",
+            mime="application/json",
+        )
 
         st.subheader("Key fields")
         first_column, second_column = st.columns(2)
