@@ -4,14 +4,16 @@ A local AI application that extracts validated structured data from fictional in
 
 ## Features
 
-- Uploads fictional invoice documents in `.txt` and `.pdf` formats
+- Uploads one or more fictional invoices in `.txt` and `.pdf` formats
 - Extracts text from PDF files with `pypdf`
 - Uses a local LLM with Ollama and Gemma 3
 - Validates extracted data with Pydantic
-- Displays structured JSON and key invoice fields in a Streamlit interface
-- Includes a fictional sample invoice in TXT and PDF format
+- Displays extracted data in a Streamlit web interface
+- Shows individual JSON results for each document
+- Exports multiple extraction results to a CSV file
+- Includes automated tests for document reading
 
-## Example extracted fields
+## Extracted fields
 
 - Invoice number
 - Invoice date
@@ -20,6 +22,7 @@ A local AI application that extracts validated structured data from fictional in
 - Currency
 - Total amount
 - Payment terms
+- Source file name
 
 ## Run locally
 
@@ -43,6 +46,12 @@ docker start ollama
 http://localhost:8501
 ```
 
+## Run tests
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests
+```
+
 ## Project structure
 
 ```text
@@ -50,6 +59,8 @@ document-intelligence-pipeline/
 ├── documents/
 │   ├── sample_invoice.txt
 │   └── sample_invoice.pdf
+├── tests/
+│   └── test_extractor.py
 ├── app.py
 ├── create_sample_invoice_pdf.py
 ├── extractor.py
@@ -65,3 +76,4 @@ document-intelligence-pipeline/
 - Pydantic
 - pypdf
 - ReportLab
+- unittest
