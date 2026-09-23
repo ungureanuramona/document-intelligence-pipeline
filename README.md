@@ -1,86 +1,67 @@
 # Document Intelligence Pipeline
 
-A local Python application that extracts validated structured data from fictional invoice documents.
-
-The application uses a local LLM to turn unstructured invoice text into JSON, then validates the result with Pydantic.
+A local AI application that extracts validated structured data from fictional invoice documents.
 
 ## Features
 
-- Uploads fictional invoice documents in `.txt` format
-- Extracts invoice number, date, supplier, customer, currency, total amount, and payment terms
-- Uses a local Ollama model (`gemma3:4b`)
+- Uploads fictional invoice documents in `.txt` and `.pdf` formats
+- Extracts text from PDF files with `pypdf`
+- Uses a local LLM with Ollama and Gemma 3
 - Validates extracted data with Pydantic
-- Displays JSON and key fields in a Streamlit web interface
-- Uses fictional sample documents only
+- Displays structured JSON and key invoice fields in a Streamlit interface
+- Includes a fictional sample invoice in TXT and PDF format
 
-## Example Output
+## Example extracted fields
 
-```json
-{
-  "invoice_number": "INV-2026-1042",
-  "invoice_date": "2026-09-21",
-  "supplier_name": "Northwind Components Ltd.",
-  "customer_name": "Contoso Retail SRL",
-  "currency": "EUR",
-  "total_amount": 3570.0,
-  "payment_terms": "Net 30 days"
-}
-```
+- Invoice number
+- Invoice date
+- Supplier name
+- Customer name
+- Currency
+- Total amount
+- Payment terms
 
-## Project Structure
+## Run locally
 
-```text
-document-intelligence-pipeline/
-├── documents/
-│   └── sample_invoice.txt
-├── app.py
-├── extractor.py
-└── requirements.txt
-```
+1. Start Docker Desktop.
 
-## Run Locally
-
-### 1. Create and install the Python environment
-
-```powershell
-py -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-```
-
-### 2. Start Ollama with Docker
-
-Docker Desktop must be running.
+2. Start the local Ollama container:
 
 ```powershell
 docker start ollama
 ```
 
-If the container does not exist yet:
-
-```powershell
-docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-```
-
-### 3. Download the local model
-
-```powershell
-docker exec -it ollama ollama pull gemma3:4b
-```
-
-### 4. Run the web application
+3. Run the Streamlit application:
 
 ```powershell
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Open `http://localhost:8501` if the browser does not open automatically.
+4. Open the local address shown in the terminal, usually:
 
-## Tech Stack
+```text
+http://localhost:8501
+```
+
+## Project structure
+
+```text
+document-intelligence-pipeline/
+├── documents/
+│   ├── sample_invoice.txt
+│   └── sample_invoice.pdf
+├── app.py
+├── create_sample_invoice_pdf.py
+├── extractor.py
+└── requirements.txt
+```
+
+## Tech stack
 
 - Python
 - Streamlit
-- Pydantic
 - Ollama
-- Gemma 3 4B
-- Docker
-- Git and GitHub
+- Gemma 3
+- Pydantic
+- pypdf
+- ReportLab
